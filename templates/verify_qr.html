@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verified QR Code</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <style>
+    /* Basic Styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f7f7f7;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-size: 16px;
+    }
+
+    /* Container Styles */
+    .container {
+      max-width: 600px;
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    /* Heading Styles */
+    h1 {
+      color: #8b69d6;
+      margin-bottom: 20px;
+    }
+
+    /* Photo Styles */
+    .student-photo {
+      max-width: 200px;
+      max-height: 200px;
+      width: auto;
+      height: auto;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+    }
+
+    /* Details Styles */
+    .details {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    /* Button Styles */
+    .checkout-button {
+      background-color: #8b69d6;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .checkout-button:hover {
+      background-color: #6c5b7b;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Verified QR Code</h1>
+    <div class="photo-container">
+      <img src="/photos/{{ student_id }}.jpg" alt="Student Photo" class="student-photo">
+    </div>
+    <div class="details">
+      <p>
+        Student ID: {{ student_id }}<br>
+        Name: {{ name }}<br>
+        Reason: {{ reason }}<br>
+        Valid ON: {{ datetime }}
+      </p>
+    </div>
+    <a href="/checkout/{{ key }}" class="checkout-button">Checked Out</a>
+  </div>
+</body>
+</html>

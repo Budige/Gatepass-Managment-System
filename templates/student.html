@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style1.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            height: auto;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .options-container {
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            width: 80%;
+            padding: 60px;
+        }
+
+        .option-button {
+            margin: 10px;
+            width: 150px;
+            height: 50px;
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        .photo-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+            padding: 20px;
+        }
+
+        .photo-container img {
+            max-width: 100%;
+            max-height: 200px;
+            height: auto;
+            width: auto;
+        }
+
+        .nav-option {
+            margin-top: 0%;
+            padding: 10px 20px;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.369);
+            transition: transform 0.3s ease;
+            margin: 10px;
+        }
+
+        .nav-option:hover {
+            transform: scale(1.1);
+            box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.369);
+        }
+
+        /* Style for the pop-up message */
+        #popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Student Dashboard</h1>
+    </header>
+
+    <nav class="navbar navbar-expand-md navbar-light bg-white">
+        <a class="navbar-brand" href="#">Navigation</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li><a href="{{ url_for('view_requests') }}" class="nav-option btn btn-primary mr-5">View Requests</a></li>
+                <li><a href="{{ url_for('stats2') }}" class="nav-option btn btn-primary mr-5">Statistics</a></li>
+                <li><a href="{{ url_for('change') }}" class="nav-option btn btn-primary mr-5">Change Password</a></li>
+                <li><a href="{{ url_for('logout') }}" class="nav-option btn btn-primary mr-5">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="photo-container">
+            <!-- Photo and Name go here -->
+            {% if session['username'] %}
+                {% if session['username'] %}
+                <img src="/photos/{{ session['username'] }}.jpg" alt="User Photo" class="user-photo">
+                {% else %}
+                    <p>No photo available</p>
+                {% endif %}
+                <h3>{{ session['username'] }}</h3>
+                <h3>Welcome {{ session['name'] }}</h3>
+                <h3>Mentor: Dr.{{ session['mentor'] }}</h3>
+            {% else %}
+                <p>No user logged in.</p>
+            {% endif %}
+        </div>
+        <form id="requestForm" action="{{ url_for('student') }}" method="post" class="form-container">
+            <h3>Submit New Request</h3>
+            <label for="reason">Reason</label>
+            <textarea id="reason" name="reason" required></textarea><br>
+            <button type="submit" class="nav-option btn btn-primary">Submit Request</button>
+        </form>
+    </div>
+
+    <!-- Pop-up message div -->
+    <div id="popup" style="display: none;">
+        <p>Request submitted successfully!</p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script>
+        // Function to show the pop-up message
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+            setTimeout(function () {
+                document.getElementById('popup').style.display = 'none';
+            }, 3000); // Hide the pop-up after 3 seconds
+        }
+
+        // Add an event listener to the form submission
+        document.getElementById('requestForm').addEventListener('submit', function () {
+            // After successful submission, call the showPopup function
+            showPopup();
+        });
+    </script>
+</body>
+
+</html>
